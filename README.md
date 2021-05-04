@@ -6,4 +6,4 @@ It has the following features:
 * Edit and delete posts (this can only be done by the author of the post)
 * Make comments on posts (only logged in users can do this. It employs a Comment model (with a commenter, associated post and date and time of the comment))
 
-**Hosted on Heroku: https://myzuri-django-blog.herokuapp.com/
+###### Hosted on Heroku: https://myzuri-django-blog.herokuapp.com/
