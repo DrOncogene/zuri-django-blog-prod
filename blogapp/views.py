@@ -1,10 +1,11 @@
 import os
-import time
 
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.shortcuts import reverse, render
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -23,6 +24,7 @@ class BlogDetailView(DetailView):
   template_name = 'blogapp/post/post_detail.html'
   form_class = CommentForm
 
+  @method_decorator(login_required(login_url=reverse_lazy('login')))
   def post(self, request, *args, **kwargs):
     form = self.form_class(request.POST)
     if form.is_valid():
