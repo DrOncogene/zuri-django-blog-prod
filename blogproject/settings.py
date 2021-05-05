@@ -28,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['myzuri-django-blog.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -144,6 +144,4 @@ django_heroku.settings(locals())
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
-ALLOWED_HOSTS = ['myzuri-django-blog.herokuapp.com', '127.0.0.1']
 
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__).resolve()))
