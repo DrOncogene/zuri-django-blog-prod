@@ -14,7 +14,6 @@ from pathlib import Path
 import django_heroku
 import dj_database_url
 import os
-# from blogapp.models import Author
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wo@wo3g_c^ot8lno4+(b)@m_r4q3m9%)lb-9f#4fqa8g_f60wt'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
