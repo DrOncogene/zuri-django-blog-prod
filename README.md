@@ -1,4 +1,5 @@
-# django-blog
+# django-blog-local
+This branch contains the local version of the app with no modification made for heroku deployment esp the secrete key
 A blog web application built using the Django web framework
 It has the following features:
 * Basic authentication (register, login, logoutl Uses the built-in django.contrib.auth.User model)
