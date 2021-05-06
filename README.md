@@ -1,4 +1,5 @@
 # django-blog
+This is the deployed version. The local version is on the 'blog-local-version' branch of this repo
 A blog web application built using the Django web framework
 It has the following features:
 * Basic authentication (register, login, logoutl Uses the built-in django.contrib.auth.User model)
