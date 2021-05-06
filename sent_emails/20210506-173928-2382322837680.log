@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: rshdkayode@gmail.com
+Date: Thu, 06 May 2021 16:39:28 -0000
+Message-ID: <162031916827.21288.12354200277582415041@Oncogene>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/password_reset_confirm/Mw/am8mds-8498309ab1eb8bc1b0916817854cc09c/
+
+Your username, in case you’ve forgotten: adminrash
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------
