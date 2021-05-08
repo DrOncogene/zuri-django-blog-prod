@@ -81,10 +81,8 @@ class SignUpView(CreateView):
   success_url = reverse_lazy('login')
   template_name = 'blogapp/registration/register.html'
   form_class = SignUpForm
-  # fields = ['username', 'email', 'first_name', 'last_name']
 
 class SigninView(LoginView):
-  # redirect_field_name = reverse_lazy('home')
   template_name = 'blogapp/registration/login.html'
   success_url = reverse_lazy('home')
 
@@ -109,7 +107,6 @@ class ResetPasswordView(PasswordResetView):
         'reset_sent': bool(request.POST['reset_sent']),
         'password_reset_url': reset_url,
         'email_valid': request.user.email == request.POST['email'],
-        'form': self.form_class(request.POST)
       })
     else:
       return render(request, 'blogapp/registration/password_reset.html', {
