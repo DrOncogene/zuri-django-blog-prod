@@ -97,12 +97,24 @@ class ResetPasswordView(PasswordResetView):
 
   def post(self, request):
     super().post(request)
-    last_saved_email = os.listdir('sent_emails')[-1]
-    with open(f"sent_emails/{last_saved_email}") as sent_mail:
-      reset_url = sent_mail.readlines()[-11].split(' ')[-1]
-      
-    return render(request, 'blogapp/registration/password_reset.html', {
-      'reset_sent': bool(request.POST['reset_sent']),
-      'password_reset_url': reset_url,
-    })
+    if request.user.email == request.POST['email']:
+      last_saved_email = os.listdir('sent_emails')[-1]
+      with open(f"sent_emails/{last_saved_email}") as sent_mail:
+        reset_url = sent_mail.readlines()[-11].split(' ')[-1]
+        
+      for file in os.scandir('sent_emails'):
+        os.remove(file)
+
+      return render(request, 'blogapp/registration/password_reset.html', {
+        'reset_sent': bool(request.POST['reset_sent']),
+        'password_reset_url': reset_url,
+        'email_valid': request.user.email == request.POST['email'],
+        'form': self.form_class(request.POST)
+      })
+    else:
+      return render(request, 'blogapp/registration/password_reset.html', {
+        'reset_sent': bool(request.POST['reset_sent']),
+        'email_valid': request.user.email == request.POST['email'],
+        'form': self.form_class(request.POST)
+      })
   
