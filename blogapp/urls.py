@@ -10,6 +10,9 @@ urlpatterns = [
     template_name='blogapp/registration/password_reset_confirm.html',
     success_url=reverse_lazy('password_reset_done')
     ), name='password_reset_confirm'),
+  path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(
+    template_name='blogapp/registration/password_reset_done.html',
+  ),name='password_reset_complete'),
   path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(
     template_name='blogapp/registration/password_reset_done.html',
     ), name='password_reset_done'),
