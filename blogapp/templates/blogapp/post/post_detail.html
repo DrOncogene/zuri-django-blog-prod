@@ -1,13 +1,17 @@
 {% extends 'blogapp/base.html' %}
+{% load l10n %}
 
 {% block content %}
   <div class="post-entry">
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.body }}</p>
+    <div class="post-header">
+      <h2>{{ post.title }}</h2>
+      <h5>by {{ post.author }} on {{ post.date }}</h5>
+    </div>
+    <p class="mt-5">{{ post.body }}</p>
   </div>
   {% if post in user.posts.all %}
-    <a href="{% url 'post_edit' post.pk %}" class="btn btn-primary">Edit Blog Post</a>
-    <a href="{% url 'post_delete' post.pk %}" class="btn btn-primary">Delete Blog Post</a>
+    <a href="{% url 'post_edit' post.pk %}" class="btn btn-primary btn-sm">Edit Post</a>
+    <a href="{% url 'post_delete' post.pk %}" class="btn btn-primary btn-sm">Delete Post</a>
   {% endif %}
   <form action="" method="POST" class="mt-5">
     {% csrf_token %}
@@ -22,7 +26,7 @@
           <input type="hidden" name="post" value="{{ post.pk }}">
         </td>
         <td>
-          <input type="submit" value="Add comment" class="btn btn-primary">
+          <input type="submit" value="Add comment" class="btn btn-primary btn-sm">
         </td>
       </tr>
     </table>
@@ -33,7 +37,7 @@
     {% for comment in post.comments.all %}
       <blockquote class="blockquote mt-4">
         <p class="commenters">
-          <em>{{ comment.commenter }} on {{ comment.date }}</em> 
+          <em>{{ comment.commenter }} on {{ comment.date|localize }}</em> 
         </p>
         <p class="comment-body"> {{comment.comment}} </p>
       </blockquoute>

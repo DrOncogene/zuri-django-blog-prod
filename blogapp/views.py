@@ -17,11 +17,11 @@ from .forms import CommentForm, NewPostForm, SignUpForm
 from .models import  Post, Comment, Author
 # Create your views here.
 
-class BlogListView(ListView):
+class PostListView(ListView):
   model = Post
   template_name = 'blogapp/home.html'
 
-class BlogDetailView(DetailView):
+class PostDetailView(DetailView):
   model = Post
   template_name = 'blogapp/post/post_detail.html'
   form_class = CommentForm
@@ -81,10 +81,8 @@ class SignUpView(CreateView):
   success_url = reverse_lazy('login')
   template_name = 'blogapp/registration/register.html'
   form_class = SignUpForm
-  # fields = ['username', 'email', 'first_name', 'last_name']
 
 class SigninView(LoginView):
-  # redirect_field_name = reverse_lazy('home')
   template_name = 'blogapp/registration/login.html'
   success_url = reverse_lazy('home')
 

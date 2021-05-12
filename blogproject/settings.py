@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import django_heroku
-import dj_database_url
 import os
 # from blogapp.models import Author
 
@@ -125,6 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -135,8 +134,3 @@ LOGIN_REDIRECT_URL = 'home'
 
 EMAIL_FILE_PATH = BASE_DIR/'sent_emails'
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
-
-django_heroku.settings(locals())
