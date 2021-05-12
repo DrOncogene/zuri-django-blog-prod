@@ -17,11 +17,11 @@ from .forms import CommentForm, NewPostForm, SignUpForm
 from .models import  Post, Comment, Author
 # Create your views here.
 
-class BlogListView(ListView):
+class PostListView(ListView):
   model = Post
   template_name = 'blogapp/home.html'
 
-class BlogDetailView(DetailView):
+class PostDetailView(DetailView):
   model = Post
   template_name = 'blogapp/post/post_detail.html'
   form_class = CommentForm
@@ -107,6 +107,7 @@ class ResetPasswordView(PasswordResetView):
         'reset_sent': bool(request.POST['reset_sent']),
         'password_reset_url': reset_url,
         'email_valid': request.user.email == request.POST['email'],
+        'form': self.form_class(request.POST)
       })
     else:
       return render(request, 'blogapp/registration/password_reset.html', {
