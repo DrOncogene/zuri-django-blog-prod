@@ -94,6 +94,9 @@ class ResetPasswordView(PasswordResetView):
   template_name='blogapp/registration/password_reset.html'
 
   def post(self, request):
+    for file in os.scandir('sent_emails'):
+      os.remove(file)
+      
     super().post(request)
     if request.user.is_authenticated:
       if request.user.email == request.POST['email']:
