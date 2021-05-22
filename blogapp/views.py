@@ -1,20 +1,18 @@
 import os
-import time
 
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
-from django.urls import reverse_lazy
-from django.shortcuts import reverse, render
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
-from django.http import HttpResponse, HttpResponseRedirect
-from .forms import CommentForm, NewPostForm, SignUpForm
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
-from .models import  Post, Comment, Author
+from .forms import CommentForm, NewPostForm, SignUpForm
+from .models import Author, Comment, Post
+
 # Create your views here.
 
 class PostListView(ListView):
@@ -68,7 +66,6 @@ class PostUpdateView(UserPassesTestMixin, UpdateView):
     return Post.objects.get(id=self.kwargs['pk']) in self.request.user.posts.all()
 
 class PostDeleteView(UserPassesTestMixin, DeleteView):
-  
   model = Post
   template_name = 'blogapp/post/post_delete.html'
   success_url = reverse_lazy('home')
@@ -95,24 +92,48 @@ class ResetPasswordView(PasswordResetView):
 
   def post(self, request):
     super().post(request)
-    if request.user.email == request.POST['email']:
-      last_saved_email = os.listdir('sent_emails')[-1]
-      with open(f"sent_emails/{last_saved_email}") as sent_mail:
-        reset_url = sent_mail.readlines()[-11].split(' ')[-1]
-        
-      for file in os.scandir('sent_emails'):
-        os.remove(file)
+    if request.user.is_authenticated:
+      if request.user.email == request.POST['email']:
+        last_saved_email = os.listdir('sent_emails')[-1]
+        with open(f"sent_emails/{last_saved_email}") as sent_mail:
+          reset_url = sent_mail.readlines()[-11].split(' ')[-1]
+          
+        for file in os.scandir('sent_emails'):
+          os.remove(file)
 
-      return render(request, 'blogapp/registration/password_reset.html', {
-        'reset_sent': bool(request.POST['reset_sent']),
-        'password_reset_url': reset_url,
-        'email_valid': request.user.email == request.POST['email'],
-        'form': self.form_class(request.POST)
-      })
+        return render(request, 'blogapp/registration/password_reset.html', {
+          'reset_sent': bool(request.POST['reset_sent']),
+          'password_reset_url': reset_url,
+          'email_valid': request.user.email == request.POST['email'],
+          'form': self.form_class(request.POST)
+        })
+      else:
+        return render(request, 'blogapp/registration/password_reset.html', {
+          'reset_sent': bool(request.POST['reset_sent']),
+          'email_valid': request.user.email == request.POST['email'],
+          'form': self.form_class(request.POST)
+        })
     else:
-      return render(request, 'blogapp/registration/password_reset.html', {
-        'reset_sent': bool(request.POST['reset_sent']),
-        'email_valid': request.user.email == request.POST['email'],
-        'form': self.form_class(request.POST)
-      })
+      try:
+        last_saved_email = os.listdir('sent_emails')[-1]
+        with open(f"sent_emails/{last_saved_email}") as sent_mail:
+          reset_url = sent_mail.readlines()[-11].split(' ')[-1]
+          
+        for file in os.scandir('sent_emails'):
+          os.remove(file)
+
+        return render(request, 'blogapp/registration/password_reset.html', {
+          'reset_sent': bool(request.POST['reset_sent']),
+          'password_reset_url': reset_url,
+          'email_valid': True,
+          'email': request.POST['email'],
+          'form': self.form_class(request.POST)
+        })
+      except IndexError:
+        return render(request, 'blogapp/registration/password_reset.html', {
+          'reset_sent': bool(request.POST['reset_sent']),
+          'email_exist': False,
+          'email': request.POST['email'],
+          'form': self.form_class(request.POST)
+        })
   
